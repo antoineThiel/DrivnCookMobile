@@ -5,32 +5,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#80c2e0"
     tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="DRIV'N'COOK!"
+        android:textSize="20sp"
         android:gravity="center"
         />
 
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+
+    <LinearLayout
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:layout_gravity="center">
+
         <EditText
             android:id="@+id/loginEntry"
-            android:layout_width="0dp"
-            android:layout_weight="0.5"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Login"
             android:lines="1"
             />
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
         <EditText
             android:id="@+id/passwordEntry"
             android:layout_width="match_parent"
@@ -39,18 +46,28 @@
             android:hint="Password"
             android:lines="1"/>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Log In"
+            android:id="@+id/login"
+            android:layout_marginBottom="5dp"
+            android:background="#FFFFFF"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Sign In"
+            android:id="@+id/signin"
+            android:background="#FFFFFF"/>
+
     </LinearLayout>
 
-    <Button
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Log In"
-        android:id="@+id/login"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Sign In"
-        android:id="@+id/signin"/>
+        android:id="@+id/text"/>
 
 
 </LinearLayout>
