@@ -5,12 +5,22 @@ public class Article {
     private String price;
     private String unit;
     private String quantity;
+    private String id;
 
-    public Article(String name, String price, String unit, String quantity) {
+    public Article(String name, String price, String unit, String quantity, String id) {
         this.name = name;
         this.price = price;
         this.unit = unit;
         this.quantity = quantity;
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
