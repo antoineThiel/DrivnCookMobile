@@ -1,5 +1,6 @@
 package com.example.drivncook;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -42,6 +43,11 @@ public class FranchiseeActivity extends AppCompatActivity {
 
         id = getIntent().getStringExtra("id");
 
+        final SharedPreferences shp = getSharedPreferences("order",MODE_PRIVATE);
+        SharedPreferences.Editor edit = shp.edit();
+        edit.putString("idFranchisee", id);
+        edit.apply();
+
         final String url ="http://10.0.2.2/getfranchiseeinfo/"+id;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
@@ -60,7 +66,8 @@ public class FranchiseeActivity extends AppCompatActivity {
                                 JSONObject temp = jMenu.getJSONObject(i);
                                 Menu menu = new Menu(
                                         temp.get("name").toString(),
-                                        temp.get("price").toString()
+                                        temp.get("price").toString(),
+                                        temp.get("id").toString()
                                 );
                                 lMenu.add(menu);
                             }
@@ -77,7 +84,8 @@ public class FranchiseeActivity extends AppCompatActivity {
                                         temp.get("name").toString(),
                                         temp.get("price").toString(),
                                         temp.get("unit").toString(),
-                                        temp.get("quantity").toString()
+                                        temp.get("quantity").toString(),
+                                        temp.get("id").toString()
                                 );
                                 lArticle.add(article);
                             }
