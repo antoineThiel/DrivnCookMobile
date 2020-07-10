@@ -2,6 +2,7 @@ package com.example.drivncook;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,13 @@ public class ArticleAdapter extends BaseAdapter {
         TextView tv_p = convertView.findViewById(R.id.article_price);
         CardView card = convertView.findViewById(R.id.cardArticle);
         final Article a = (Article) getItem(position);
+
+        if (a.getReduc() == 1)
+        {
+            tv_p.setTextColor(Color.parseColor("#42f57b"));
+        }else{
+            tv_p.setTextColor(Color.parseColor("#000000"));
+        }
 
         card.setOnClickListener(new View.OnClickListener() {
             @Override

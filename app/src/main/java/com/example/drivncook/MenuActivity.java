@@ -1,6 +1,5 @@
 package com.example.drivncook;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -8,6 +7,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,11 +19,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-@SuppressLint("Registered")
-public class ProductActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MenuActivity extends AppCompatActivity {
 
     private TextView fName;
     private TextView pName;
@@ -33,13 +36,15 @@ public class ProductActivity extends AppCompatActivity {
     private Button less;
     private Button more;
     private TextView addCArt;
-
-
+    private List<Article> lArticle = new ArrayList<>();
+    private ListView lvArticle;
+    private JSONArray jArticles;
+    private JSONObject order;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product);
+        setContentView(R.layout.activity_menu);
 
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
@@ -52,9 +57,9 @@ public class ProductActivity extends AppCompatActivity {
         totalPrice = findViewById(R.id.ptotal_price);
         pPrice = findViewById(R.id.pPrice);
         addCArt = findViewById(R.id.add_cart);
+        lvArticle = findViewById(R.id.m_article_list);
 
         less.setVisibility(View.INVISIBLE);
-
 
         final SharedPreferences shp = getSharedPreferences("order",MODE_PRIVATE);
         String idFranchisee = shp.getString("idFranchisee", null);
@@ -79,10 +84,9 @@ public class ProductActivity extends AppCompatActivity {
                 });
 
         //Add Request to the Queue.
-        MySingleton.getInstance(ProductActivity.this).addToRequestQueue(jsonObjectRequest);
+        MySingleton.getInstance(MenuActivity.this).addToRequestQueue(jsonObjectRequest);
 
-
-        final String url ="http://51.210.7.226/getarticle/"+id;
+        final String url ="http://51.210.7.226/getmenu/"+id;
         final int[] maxQty = new int[1];
 
         JsonObjectRequest jsonObjectRequest2 = new JsonObjectRequest
@@ -90,10 +94,29 @@ public class ProductActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                           pName.setText(response.get("nom").toString() + " " + response.get("quantity") + response.get("unit"));
-                           pPrice.setText(response.get("price").toString());
-                           totalPrice.setText(response.get("price").toString());
-                           maxQty[0] = Integer.parseInt(response.get("stock").toString());
+                            pName.setText(response.get("nom").toString());
+                            pPrice.setText(response.get("price").toString());
+                            totalPrice.setText(response.get("price").toString());
+                            maxQty[0] = Integer.parseInt(response.get("stock").toString());
+                            jArticles = response.getJSONArray("article");
+                            for (int i = 0; i<jArticles.length(); i++)
+                            {
+                                JSONObject temp = jArticles.getJSONObject(i);
+                                Article a = new Article(
+                                        temp.get("nom").toString(),
+                                        temp.get("price").toString(),
+                                        temp.get("unit").toString(),
+                                        temp.get("quantity").toString(),
+                                        temp.get("id").toString()
+                                );
+                                lArticle.add(a);
+                            }
+
+                            final MenuContentAdapter adapter = new MenuContentAdapter(MenuActivity.this, lArticle);
+                            lvArticle.setAdapter(adapter);
+
+
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -106,7 +129,7 @@ public class ProductActivity extends AppCompatActivity {
                 });
 
         //Add Request to the Queue.
-        MySingleton.getInstance(ProductActivity.this).addToRequestQueue(jsonObjectRequest2);
+        MySingleton.getInstance(MenuActivity.this).addToRequestQueue(jsonObjectRequest2);
 
         less.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,14 +138,12 @@ public class ProductActivity extends AppCompatActivity {
                 if (qty == 2){
                     less.setVisibility(View.INVISIBLE);
                 }
-
                 if (qty == maxQty[0])
                     more.setVisibility(View.VISIBLE);
                 if (qty > 0){
                     qty--;
                     String newQty = Integer.toString(qty);
                     quantity.setText(newQty);
-                  //  int ttlPrice = Integer.parseInt(totalPrice.getText().toString());
                     double ttlPrice = Double.parseDouble(totalPrice.getText().toString());
                     ttlPrice -= Double.parseDouble(pPrice.getText().toString());
                     String newTtlPrice = Double.toString(ttlPrice);
@@ -157,9 +178,9 @@ public class ProductActivity extends AppCompatActivity {
         addCArt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JSONObject order = new JSONObject();
+                order = new JSONObject();
                 try {
-                    order.put("pid", id );
+                    order.put("pid", id);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -175,14 +196,11 @@ public class ProductActivity extends AppCompatActivity {
                 }
                 try {
                     order.put("price", totalPrice.getText().toString());
-                }catch (JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-
-
-                String url = "http://51.210.7.226/addCart";
-
+                String url = "http://51.210.7.226/addCartMenu";
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, order,
                         new Response.Listener<JSONObject>() {
                             @Override
@@ -196,20 +214,22 @@ public class ProductActivity extends AppCompatActivity {
                                         edit.apply();
 
                                     }
-                                }catch (JSONException e) {
+                                } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
                             }
                         },
                         new Response.ErrorListener() {
                             @Override
-                            public void onErrorResponse(VolleyError error){
+                            public void onErrorResponse(VolleyError error) {
 
                             }
                         });
-                MySingleton.getInstance(ProductActivity.this).addToRequestQueue(jsonObjectRequest);
+                MySingleton.getInstance(MenuActivity.this).addToRequestQueue(jsonObjectRequest);
             }
+
         });
+
     }
 
     // Menu icons are inflated just as they were with actionbar
@@ -223,12 +243,11 @@ public class ProductActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_basket:
-                Intent it = new Intent(ProductActivity.this, BasketActivity.class);
+                Intent it = new Intent(MenuActivity.this, BasketActivity.class);
                 startActivity(it);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
 }

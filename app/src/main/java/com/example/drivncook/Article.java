@@ -6,6 +6,7 @@ public class Article {
     private String unit;
     private String quantity;
     private String id;
+    private int reduc;
 
     public Article(String name, String price, String unit, String quantity, String id) {
         this.name = name;
@@ -53,5 +54,13 @@ public class Article {
 
     public void setQuantity(String quantity) {
         this.quantity = quantity;
+    }
+
+    public int getReduc() {
+        return reduc;
+    }
+
+    public void setReduc(int reduc) {
+        this.reduc = reduc;
     }
 }

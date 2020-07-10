@@ -1,22 +1,15 @@
 package com.example.drivncook;
 
-public class Menu {
+public class BasketArticle {
     private String name;
     private String price;
+    private String quantity;
     private String id;
-    private int reduc;
 
-    public Menu(String name, String price, String id) {
+    public BasketArticle(String name, String price, String quantity, String id) {
         this.name = name;
         this.price = price;
-        this.id = id;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
+        this.quantity = quantity;
         this.id = id;
     }
 
@@ -36,11 +29,19 @@ public class Menu {
         this.price = price;
     }
 
-    public int getReduc() {
-        return reduc;
+    public String getQuantity() {
+        return quantity;
     }
 
-    public void setReduc(int reduc) {
-        this.reduc = reduc;
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

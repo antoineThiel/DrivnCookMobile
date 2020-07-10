@@ -43,8 +43,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 final String loginString = loginEntry.getText().toString();
-                String password = loginEntry.getText().toString();
-                final String url ="http://10.0.2.2/check_cred/"+loginString+"/"+password;
+                final String url ="http://51.210.7.226/check_cred/"+loginString+"/"+passwordEntry.getText().toString();
 
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                         (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -79,32 +78,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        final String url ="http://51.210.7.226/getlog";
-
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Request a string response from the provided URL.
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                        (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    textView.setText("Response: " + response.get("id").toString());
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                // TODO: Handle error
-                            }
-                        });
-
-                //Add Request to the Queue.
-                MySingleton.getInstance(MainActivity.this).addToRequestQueue(jsonObjectRequest);
-
+                Intent it  = new Intent(MainActivity.this, SigninActivity.class);
+                startActivity(it);
             }
         });
     }

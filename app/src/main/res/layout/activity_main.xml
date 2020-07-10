@@ -34,7 +34,8 @@
             android:id="@+id/loginEntry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Login"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
             android:lines="1"
             />
 
@@ -63,11 +64,4 @@
             android:background="#FFFFFF"/>
 
     </LinearLayout>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/text"/>
-
-
 </LinearLayout>

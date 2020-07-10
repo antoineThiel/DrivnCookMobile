@@ -22,7 +22,7 @@
         android:orientation="vertical"
         android:layout_gravity="center">
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/cemail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -31,7 +31,7 @@
             android:hint="Email Adress"/>
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/cfirst"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -40,7 +40,7 @@
             android:hint="First Name" />
 
         <EditText
-            android:id="@+id/editText3"
+            android:id="@+id/clast"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -49,7 +49,7 @@
             android:hint="Last Name" />
 
         <EditText
-            android:id="@+id/editText4"
+            android:id="@+id/cpassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"

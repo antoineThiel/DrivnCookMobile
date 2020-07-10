@@ -23,7 +23,7 @@
             android:layout_alignParentEnd="true"
             android:textColor="#999999" />
         <TextView
-            android:id="@+id/genre"
+            android:id="@+id/position"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true" />

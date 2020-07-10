@@ -1,11 +1,15 @@
 package com.example.drivncook;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import androidx.cardview.widget.CardView;
 
 import java.util.List;
 
@@ -44,8 +48,25 @@ public class MenuAdapter extends BaseAdapter {
 
         TextView tv_n = convertView.findViewById(R.id.menu_name);
         TextView tv_p = convertView.findViewById(R.id.menu_price);
+        CardView card = convertView.findViewById(R.id.cardMenu);
 
-        Menu m = (Menu) getItem(position);
+        final Menu m = (Menu) getItem(position);
+
+        if (m.getReduc() == 1)
+        {
+            tv_p.setTextColor(Color.parseColor("#42f57b"));
+        }else {
+            tv_p.setTextColor(Color.parseColor("#000000"));
+        }
+
+        card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(context, MenuActivity.class);
+                it.putExtra("id", m.getId());
+                context.startActivity(it);
+            }
+        });
 
         tv_n.setText(m.getName());
         tv_p.setText(m.getPrice() + "€");
